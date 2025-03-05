@@ -1,0 +1,8 @@
+site_name: "customer-api-slawekm"
+site_description: "slawekm - API project"
+
+nav:
+  - Introduction: README.md
+
+plugins:
+  - techdocs-core

@@ -1,0 +1,91 @@
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: tibco-customers
+  description: An organization that manage customers
+  tags:
+    - customers
+    - platform
+spec:
+  type: organization
+  profile:
+    displayName: TIBCO CRM
+    email: info@tibco.com
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: customers
+  description: Everything related to customers
+  tags:
+    - customers
+    - platform
+spec:
+  owner: tibco-customers
+---
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: customer-system
+  description: 'A system to manage customers'
+  tags:
+    - customers
+    - platform
+spec:
+  owner: tibco-customers
+  domain: customers
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "customer-api-slawekm"
+  description: "slawekm - API project"
+  tags: 
+    - customers
+    - platform
+  links:
+    - title: Flogo Documentation
+      url: https://docs.tibco.com/products/tibco-flogo-enterprise
+    - title: VSCode Editor (File)
+      url: vscode://file//Users/dev/git/customer-api-slawekm/src/customer-api.flogo
+    - title: VSCode Editor (Folder)
+      url: vscode://file//Users/dev/git/customer-api-slawekm
+  tibcoPlatformApps:
+    - appType: Flogo
+      appName: customer-api-slawekm
+      dataPlaneName: dp-aks
+      dpId: cq35s2ijcp26pefl1dmg
+      capabilityInstanceId: cqgcsnijcp26pefl1g20
+      appId: cuvjtna7s9bmf6nsijvg
+  annotations:
+    jenkins.io/job-full-name: customer-api-slawekmJob
+    github.com/project-slug: atsfr-tibco-devhub/customer-api-slawekm
+    backstage.io/techdocs-ref: dir:.
+spec:
+  type: service
+  system: customer-system
+  lifecycle: development
+  owner: tibco-customers
+  dependsOn:
+    - component:default/customer-backend
+  providesApis: ['customer-api-slawekm-api']
+---
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: 'customer-api-slawekm-api'
+  description: 'An API that manages customers'
+  tags:
+    - customers
+    - rest
+    - platform
+spec:
+  type: openapi
+  lifecycle: development
+  system: customer-api-slawekm-system
+  owner: tibco-customers
+  apiConsumedBy:
+    []
+  definition:
+    $text: "./spec/customer.json"
